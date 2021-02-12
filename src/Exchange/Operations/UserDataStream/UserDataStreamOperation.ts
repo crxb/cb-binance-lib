@@ -3,16 +3,68 @@ import {Binance} from "../../Binance";
 import {SecurityType} from "../../enums/SecurityType";
 import {HttpMethod} from "../../enums/HttpMethod";
 import {BinanceSocket} from "../../Sockets/BinanceSocket";
+import {FuturesEvent} from "./Events/FuturesEvent";
+import {MarginCallEvent} from "./Events/MarginCallEvent";
+import {AccountUpdateEvent} from "./Events/AccountUpdateEvent";
+import {OrderTradeUpdateEvent} from "./Events/OrderTradeUpdateEvent";
+import {AccountConfigUpdateEvent} from "./Events/AccountConfigUpdateEvent";
+import Timeout = NodeJS.Timeout;
+
+export type CallbackFunction = (event: FuturesEvent) => void;
 
 export default class UserDataStreamOperation extends BinanceOperation {
-    private sockets: BinanceSocket[] = [];
+    private socket: BinanceSocket = null;
+    private callbacks: CallbackFunction[] = [];
+    private renewListenKeyInterval: Timeout = null;
 
-    public async subscribe() {
-        let listenKey = await this.getListenKey();
+    public async subscribe(callback: CallbackFunction) {
+        this.callbacks.push(callback);
 
-        let socket = new BinanceSocket(Binance.WSS_FAPI, `/ws/${listenKey}`);
+        if (this.socket == null) {
+            let listenKey = await this.getListenKey();
+            this.socket = new BinanceSocket(Binance.WSS_FAPI, `/ws/${listenKey}`);
+            this.socket.onData(this.onSocketData.bind(this));
+            if (this.renewListenKeyInterval === null) {
+                this.renewListenKeyInterval = setInterval(() => {
+                    this.updateListenKey();
+                }, 1000 * 60 * 30);
+            }
+        }
+    }
 
-        this.sockets.push(socket);
+    public async unsubscribe(callback: CallbackFunction) {
+        this.callbacks = this.callbacks.filter(x => x !== callback);
+        if (this.callbacks.length <= 0) {
+            this.socket.destroy();
+            this.socket = null;
+            await this.deleteListenKey();
+            clearInterval(this.renewListenKeyInterval);
+        }
+    }
+
+    private onSocketData(data: any) {
+        let event: FuturesEvent = null;
+
+        switch (data.e) {
+            case 'listenKeyExpired':
+                break;
+            case 'MARGIN_CALL':
+                event = new MarginCallEvent(data);
+                break;
+            case 'ACCOUNT_UPDATE':
+                event = new AccountUpdateEvent(data);
+                break;
+            case 'ORDER_TRADE_UPDATE':
+                event = new OrderTradeUpdateEvent(data);
+                break;
+            case 'ACCOUNT_CONFIG_UPDATE':
+                event = new AccountConfigUpdateEvent(data);
+                break;
+        }
+
+        for (let i = 0; i < this.callbacks.length; i++) {
+            this.callbacks[i](event);
+        }
     }
 
     public async getListenKey(): Promise<string> {

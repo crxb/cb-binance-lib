@@ -1,0 +1,1 @@
+{"version":3,"file":"FuturesEvent.js","sourceRoot":"","sources":["../../../../../src/exchange/Operations/UserDataStream/Events/FuturesEvent.ts"],"names":[],"mappings":";;;AAAA,MAAa,YAAY;IAKrB,YAAY,IAAS;QACjB,IAAI,CAAC,SAAS,GAAG,IAAI,CAAC,CAAC,CAAC;QACxB,IAAI,CAAC,SAAS,GAAG,IAAI,CAAC,CAAC,CAAC;QACxB,IAAI,CAAC,eAAe,GAAG,IAAI,CAAC,CAAC,CAAC;IAClC,CAAC;CACJ;AAVD,oCAUC"}
