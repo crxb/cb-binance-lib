@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 import querystring, {ParsedUrlQueryInput} from 'querystring';
-import {SecurityType} from "./enums/SecurityType";
-import {HttpMethod} from "./enums/HttpMethod";
+import {SecurityType} from "./Enums/SecurityType";
+import {HttpMethod} from "./Enums/HttpMethod";
 import axios from "axios";
-import {BinanceError} from "./errors/BinanceError";
+import {BinanceError} from "./Errors/BinanceError";
 
 export class BinanceBase {
     API_KEY: string = null;

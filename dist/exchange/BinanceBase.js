@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BinanceBase = void 0;
 const crypto_1 = __importDefault(require("crypto"));
 const querystring_1 = __importDefault(require("querystring"));
-const SecurityType_1 = require("./enums/SecurityType");
+const SecurityType_1 = require("./Enums/SecurityType");
 const axios_1 = __importDefault(require("axios"));
-const BinanceError_1 = require("./errors/BinanceError");
+const BinanceError_1 = require("./Errors/BinanceError");
 class BinanceBase {
     constructor(API_KEY, API_SECRET) {
         this.API_KEY = null;

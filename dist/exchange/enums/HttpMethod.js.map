@@ -1,1 +1,1 @@
-{"version":3,"file":"HttpMethod.js","sourceRoot":"","sources":["../../../src/exchange/enums/HttpMethod.ts"],"names":[],"mappings":";;;AAAA,IAAY,UAKX;AALD,WAAY,UAAU;IAClB,2BAAa,CAAA;IACb,yBAAW,CAAA;IACX,yBAAW,CAAA;IACX,+BAAiB,CAAA;AACrB,CAAC,EALW,UAAU,GAAV,kBAAU,KAAV,kBAAU,QAKrB"}
+{"version":3,"file":"HttpMethod.js","sourceRoot":"","sources":["../../../src/exchange/Enums/HttpMethod.ts"],"names":[],"mappings":";;;AAAA,IAAY,UAKX;AALD,WAAY,UAAU;IAClB,2BAAa,CAAA;IACb,yBAAW,CAAA;IACX,yBAAW,CAAA;IACX,+BAAiB,CAAA;AACrB,CAAC,EALW,UAAU,GAAV,kBAAU,KAAV,kBAAU,QAKrB"}

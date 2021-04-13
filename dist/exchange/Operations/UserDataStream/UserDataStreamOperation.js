@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const BinanceOperation_1 = require("../BinanceOperation");
 const Binance_1 = require("../../Binance");
-const SecurityType_1 = require("../../enums/SecurityType");
-const HttpMethod_1 = require("../../enums/HttpMethod");
+const SecurityType_1 = require("../../Enums/SecurityType");
+const HttpMethod_1 = require("../../Enums/HttpMethod");
 const BinanceSocket_1 = require("../../Sockets/BinanceSocket");
 const MarginCallEvent_1 = require("./Events/MarginCallEvent");
 const AccountUpdateEvent_1 = require("./Events/AccountUpdateEvent");
