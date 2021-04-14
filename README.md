@@ -51,3 +51,10 @@ let cancelResult = await client.order.cancel({
     origClientOrderId: 'cb-test',
 });
 ```
+
+# TODO
+* Websocket reconnection mechanism should be implemented.
+* Client should be seperated by Futures/Spot operations.
+* Error handling (throwing errors) should be improved.
+* Documentation needs to be improved.
+* First release will be published after this items are done. 
