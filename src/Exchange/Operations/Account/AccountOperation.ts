@@ -44,7 +44,7 @@ export class AccountOperation extends BinanceOperation {
     let params = { coin };
     if (network !== null) {
       // @ts-ignore
-      params?.network = network;
+      params.network = network;
     }
     // @ts-ignore
     return this.binance.request(
