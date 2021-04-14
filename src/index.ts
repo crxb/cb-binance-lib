@@ -1,3 +1,3 @@
-import {Binance} from "./exchange/Binance";
+import { Binance } from "./exchange/Binance";
 
-export {Binance};
+export { Binance };
