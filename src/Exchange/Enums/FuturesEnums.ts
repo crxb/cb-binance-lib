@@ -167,3 +167,20 @@ export enum PositionMarginType {
     ADD = 1,
     REDUCE = 2,
 }
+
+export enum periodType{   
+    i5m = "5m",
+    i15m = "15m",
+    i30m = "30m",
+    i1h = "1h",
+    i2h = "2h",
+    i4h = "4h",
+    i6h = "6h",
+    i12h = "12h",
+    i1d = "1d"
+}
+
+export enum autoCloseType{
+    LIQUIDATION = "LIQUIDATION",
+    ADL = "ADL"
+}

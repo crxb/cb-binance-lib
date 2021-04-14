@@ -1,34 +1,295 @@
-import {BinanceOperation} from "../BinanceOperation";
-import {Binance} from "../../Binance";
-import {SecurityType} from "../../Enums/SecurityType";
-import {HttpMethod} from "../../Enums/HttpMethod";
+import { BinanceOperation } from "../BinanceOperation";
+import { Binance } from "../../Binance";
+import { SecurityType } from "../../Enums/SecurityType";
+import { HttpMethod } from "../../Enums/HttpMethod";
+import {
+  ContractType,
+  KlineInterval,
+  periodType,
+} from "../../Enums/FuturesEnums";
+
+type generalRequest = {
+  symbol: string;
+  limit?: number;
+};
+
+type historicalTrade = {
+  symbol: string;
+  fromId?: number;
+  limit?: number;
+};
 
 export class GeneralOperation extends BinanceOperation {
+  public async exchangeInfo() {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/exchangeInfo",
+      SecurityType.NONE,
+      HttpMethod.GET
+    );
+  }
 
-    public async exchangeInfo() {
-        return this.binance.request(Binance.FAPI, '/fapi/v1/exchangeInfo', SecurityType.NONE, HttpMethod.GET);
-    }
+  public async orderBook(params: generalRequest) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/depth",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
 
-    // todo: /fapi/v1/depth
-    // todo: /fapi/v1/trades
-    // todo: /fapi/v1/historicalTrades
-    // todo: /fapi/v1/aggTrades
-    // todo: /fapi/v1/klines
-    // todo: /fapi/v1/continuousKlines
-    // todo: /fapi/v1/premiumIndex
-    // todo: /fapi/v1/fundingRate
-    // todo: /fapi/v1/ticker/24hr
-    // todo: /fapi/v1/ticker/price
-    // todo: /fapi/v1/ticker/bookTicker
-    // todo: /fapi/v1/allForceOrders
-    // todo: /fapi/v1/openInterest
-    // todo: /futures/data/openInterestHist
-    // todo: /futures/data/topLongShortAccountRatio
-    // todo: /futures/data/topLongShortPositionRatio
-    // todo: /futures/data/globalLongShortAccountRatio
-    // todo: /futures/data/takerlongshortRatio
-    // todo: /fapi/v1/lvtKlines
-    // todo: /fapi/v1/indexInfo
-    // todo: xxxxxxx
-    // todo: xxxxxxx
+  public async recentTrades(params: generalRequest) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/trades",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async historicalTrades(params: historicalTrade) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/historicalTrades",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async aggTrades(params: {
+    symbol: string;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/historicalTrades",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async klines(params: {
+    symbol: string;
+    interval: KlineInterval;
+    startTime?: number;
+    endTime?: number;
+    limit?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/klines",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async continuousKlines(params: {
+    pair: string;
+    contractType: ContractType;
+    interval: KlineInterval;
+    startTime?: number;
+    endTime?: number;
+    limit?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/continuousKlines",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async premiumIndex(params?: { symbol?: string }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/premiumIndex",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async fundingRate(params?: {
+    symbol?: string;
+    startTime?: number;
+    endTime?: number;
+    limit?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/fundingRate",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async tickerDay(params?: { symbol?: string }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/ticker/24hr",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async tickerPrice(params?: { symbol?: string }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/ticker/price",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async bookTicker(params?: { symbol?: string }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/ticker/bookTicker",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async allForceOrders(params?: {
+    symbol?: string;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/allForceOrders",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async openInterest(params?: { symbol?: string }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/openInterest",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async openInterestHist(params: {
+    symbol: string;
+    period: periodType;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/openInterestHist",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async topLongShortAccountRatio(params: {
+    symbol: string;
+    period: periodType;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/futures/data/topLongShortAccountRatio",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+  public async topLongShortPositionRatio(params: {
+    symbol: string;
+    period: periodType;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/futures/data/topLongShortPositionRatio",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async globalLongShortAccountRatio(params: {
+    symbol: string;
+    period: periodType;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/futures/data/globalLongShortAccountRatio",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async takerlongshortRatio(params: {
+    symbol: string;
+    period: periodType;
+    limit?: number;
+    startTime?: number;
+    endTime?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/futures/data/takerlongshortRatio",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async lvtKlines(params: {
+    symbol: string;
+    interval: KlineInterval;
+    startTime?: number;
+    endTime?: number;
+    limit?: number;
+  }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/lvtKlines",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async indexInfo(params?: { symbol?: string }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v1/indexInfo",
+      SecurityType.NONE,
+      HttpMethod.GET,
+      params
+    );
+  }
+  // todo: xxxxxxx
 }
