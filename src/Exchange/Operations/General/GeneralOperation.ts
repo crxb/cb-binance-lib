@@ -20,6 +20,7 @@ type historicalTrade = {
 };
 
 export class GeneralOperation extends BinanceOperation {
+  // Current exchange trading rules and symbol information
   public async exchangeInfo() {
     return this.binance.request(
       Binance.FAPI,
@@ -28,7 +29,7 @@ export class GeneralOperation extends BinanceOperation {
       HttpMethod.GET
     );
   }
-
+  // Order book
   public async orderBook(params: generalRequest) {
     return this.binance.request(
       Binance.FAPI,
@@ -38,7 +39,7 @@ export class GeneralOperation extends BinanceOperation {
       params
     );
   }
-
+  // Get recent trades
   public async recentTrades(params: generalRequest) {
     return this.binance.request(
       Binance.FAPI,
@@ -48,7 +49,7 @@ export class GeneralOperation extends BinanceOperation {
       params
     );
   }
-
+  // Get older market historical trades.
   public async historicalTrades(params: historicalTrade) {
     return this.binance.request(
       Binance.FAPI,
@@ -58,7 +59,8 @@ export class GeneralOperation extends BinanceOperation {
       params
     );
   }
-
+  // Get compressed, aggregate trades. 
+  // Trades that fill at the time, from the same order, with the same price will have the quantity aggregated.
   public async aggTrades(params: {
     symbol: string;
     limit?: number;
@@ -73,7 +75,8 @@ export class GeneralOperation extends BinanceOperation {
       params
     );
   }
-
+  // Kline/candlestick bars for a symbol. 
+  // Klines are uniquely identified by their open time.
   public async klines(params: {
     symbol: string;
     interval: KlineInterval;
@@ -90,6 +93,8 @@ export class GeneralOperation extends BinanceOperation {
     );
   }
 
+  // Kline/candlestick bars for a specific contract type.
+  // Klines are uniquely identified by their open time.
   public async continuousKlines(params: {
     pair: string;
     contractType: ContractType;
@@ -106,7 +111,7 @@ export class GeneralOperation extends BinanceOperation {
       params
     );
   }
-
+  // Mark Price and Funding Rate
   public async premiumIndex(params?: { symbol?: string }) {
     return this.binance.request(
       Binance.FAPI,
@@ -132,6 +137,8 @@ export class GeneralOperation extends BinanceOperation {
     );
   }
 
+  // 24 hour rolling window price change statistics.
+  // Careful when accessing this with no symbol.
   public async tickerDay(params?: { symbol?: string }) {
     return this.binance.request(
       Binance.FAPI,
@@ -291,5 +298,4 @@ export class GeneralOperation extends BinanceOperation {
       params
     );
   }
-  // todo: xxxxxxx
 }

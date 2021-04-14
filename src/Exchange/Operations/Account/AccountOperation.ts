@@ -29,8 +29,11 @@ export class AccountOperation extends BinanceOperation {
     );
   }
 
-  public async transfer(asset: string, amount: string, type: TransferType) {
-    let params = { asset, amount, type };
+  public async transfer(params: {
+    asset: string;
+    amount: string;
+    type: TransferType;
+  }) {
     return this.binance.request(
       Binance.API,
       "/sapi/v1/futures/transfer",
@@ -40,13 +43,7 @@ export class AccountOperation extends BinanceOperation {
     );
   }
 
-  public async depositAddress(coin: string, network: string = null) {
-    let params = { coin };
-    if (network !== null) {
-      // @ts-ignore
-      params.network = network;
-    }
-    // @ts-ignore
+  public async depositAddress(params: { coin: string; network?: string }) {
     return this.binance.request(
       Binance.API,
       "/sapi/v1/capital/deposit/address",
@@ -65,7 +62,45 @@ export class AccountOperation extends BinanceOperation {
     );
   }
 
-  // todo: /sapi/v1/asset/dust
-  // todo: /fapi/v1/apiTradingStatus
-  // todo: /fapi/v1/commissionRate
+  public async assetDust(params: {
+    asset: string[];
+    recvWindow?: number;
+    timestamp: number;
+  }) {
+    return this.binance.request(
+      Binance.API,
+      "/sapi/v1/asset/dust",
+      SecurityType.USER_DATA,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async apiTradingStatus(params: {
+    symbol?: string;
+    recvWindow?: number;
+    timestamp: number;
+  }) {
+    return this.binance.request(
+      Binance.API,
+      "/fapi/v1/apiTradingStatus",
+      SecurityType.USER_DATA,
+      HttpMethod.GET,
+      params
+    );
+  }
+
+  public async commissionRate(params: {
+    symbol: string;
+    recvWindow?: number;
+    timestamp: number;
+  }) {
+    return this.binance.request(
+      Binance.API,
+      "/fapi/v1/commissionRate",
+      SecurityType.USER_DATA,
+      HttpMethod.GET,
+      params
+    );
+  }
 }

@@ -3,9 +3,10 @@ export class BinanceError extends Error {
   isExternalError: boolean;
 
   constructor(code: number, message: string, isExternalError: boolean = false) {
-    super(message);
+    super();
+    this.message = message;
     this.code = code;
     this.isExternalError = isExternalError;
-    Object.setPrototypeOf(this, BinanceError.prototype);
+    console.error(this)
   }
 }

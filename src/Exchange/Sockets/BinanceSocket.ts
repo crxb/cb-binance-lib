@@ -7,6 +7,8 @@ export class BinanceSocket {
   onConnectCallback: Function = null;
   callbackCounter: number = 0;
   callbacks: Map<number, Function> = new Map<number, Function>();
+  shouldReconnect: boolean = false;
+  retryCount: number = 5;
 
   constructor(root: string, path: string = "/ws") {
     this.url = root + path;
@@ -104,9 +106,8 @@ export class BinanceSocket {
       return;
     }
 
-    if (typeof data.code !== "undefined" && typeof data.msg !== "undefined") {
+    if (data?.code && data?.msg) {
       console.error("error", data);
-      // handle error
       return;
     }
 
@@ -115,9 +116,8 @@ export class BinanceSocket {
     }
   }
 
-  private onClose(p1: string, p2: string) {
-    console.log("onClose", p1, p2);
-    console.log(" Trying to reconnect");
+  private onClose() {
+    console.log("Trying to reconnect");
     setTimeout(() => this.connect(), 1000);
   }
 
@@ -131,5 +131,6 @@ export class BinanceSocket {
 
   public destroy() {
     this.socket.close();
+    this.shouldReconnect = false;
   }
 }

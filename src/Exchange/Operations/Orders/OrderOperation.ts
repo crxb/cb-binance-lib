@@ -56,13 +56,11 @@ type QueryAllParams = {
   orderId?: number | string;
   startTime?: number;
   endTime?: number;
-  /**
-   * Default 500; max 1000.
-   */
   limit?: number;
 };
 
 export class OrderOperation extends BinanceOperation {
+  // Send in a new order 
   public async create(params: CreateParams) {
     return this.binance.request(
       Binance.FAPI,
@@ -72,7 +70,7 @@ export class OrderOperation extends BinanceOperation {
       params
     );
   }
-
+  // Check an order's status
   public async query(params: QueryParams) {
     return this.binance.request(
       Binance.FAPI,
@@ -82,7 +80,7 @@ export class OrderOperation extends BinanceOperation {
       params
     );
   }
-
+  // Cancel an active order.
   public async cancel(params: CancelParams) {
     return this.binance.request(
       Binance.FAPI,
@@ -92,7 +90,7 @@ export class OrderOperation extends BinanceOperation {
       params
     );
   }
-
+  // Cancel all open orders
   public async cancelAll(params: CancelAllParams) {
     return this.binance.request(
       Binance.FAPI,

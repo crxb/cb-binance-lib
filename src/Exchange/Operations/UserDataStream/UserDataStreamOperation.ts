@@ -65,8 +65,6 @@ export default class UserDataStreamOperation extends BinanceOperation {
     for (let i = 0; i < this.callbacks.length; i++) {
       this.callbacks[i](event);
     }
-    this.socket.destroy();
-
   }
 
   public async getListenKey(): Promise<string> {

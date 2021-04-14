@@ -10,7 +10,7 @@ import {
   PositionSide,
 } from "../../Enums/FuturesEnums";
 
-interface ChangeMarginParams {
+type ChangeMarginParams = {
   positionSide?: PositionSide;
 }
 
@@ -19,14 +19,7 @@ type RiskParams = {
 };
 
 export class PositionOperation extends BinanceOperation {
-  /**
-   *
-   * @param symbol
-   * @param leverage - 1 to 125
-   */
-  public async changeLeverage(symbol: string, leverage: number) {
-    let params = { symbol: symbol, leverage: leverage };
-    // @ts-ignore
+  public async changeLeverage(params: { symbol: string; leverage: number }) {
     return this.binance.request(
       Binance.FAPI,
       "/fapi/v1/leverage",
@@ -36,9 +29,10 @@ export class PositionOperation extends BinanceOperation {
     );
   }
 
-  public async changeMarginType(symbol: string, marginType: MarginType) {
-    let params = { symbol: symbol, marginType: marginType };
-    // @ts-ignore
+  public async changeMarginType(params: {
+    symbol: string;
+    marginType: MarginType;
+  }) {
     return this.binance.request(
       Binance.FAPI,
       "/fapi/v1/marginType",
@@ -48,27 +42,27 @@ export class PositionOperation extends BinanceOperation {
     );
   }
 
-  public async changeMargin(
-    symbol: string,
-    type: PositionMarginType,
-    amount: string,
-    optional: ChangeMarginParams = {}
-  ) {
-    let params = { symbol: symbol, type: type, amount: amount, ...optional };
-    // @ts-ignore
+  public async changeMargin(params: { symbol: string, type: PositionMarginType, amount: string, optional: ChangeMarginParams}){
     return this.binance.request(
       Binance.FAPI,
       "/fapi/v1/positionMargin",
       SecurityType.TRADE,
       HttpMethod.POST,
+      // @ts-ignore
+      params
+    );
+  }
+  public async positionMarginHistory(params: {symbol:string, type?: number, startTime?: number, endTime?:number, limit?: number, recvWindow?: number, timestamp: number }) {
+    return this.binance.request(
+      Binance.FAPI,
+      "/fapi/v2/positionRisk",
+      SecurityType.USER_DATA,
+      HttpMethod.GET,
       params
     );
   }
 
-  // todo: /fapi/v1/positionMargin/history
-
   public async risk(params: RiskParams = {}) {
-    // @ts-ignore
     return this.binance.request(
       Binance.FAPI,
       "/fapi/v2/positionRisk",

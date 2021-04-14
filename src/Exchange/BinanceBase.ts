@@ -59,14 +59,16 @@ export class BinanceBase {
         method: httpMethod,
       });
 
-      //   let usedWright = result.headers["x-mbx-used-weight-1m"];
-
-      console.log("headers", result.headers["x-mbx-used-weight-1m"]);
+      // let usedWright = result.headers["x-mbx-used-weight-1m"];
 
       return result.data;
     } catch (e) {
       if (e.response && e.response.data) {
-        throw new BinanceError(e.response.data.code, e.response.data.msg, true);
+        throw new BinanceError(
+          e?.response.data.code,
+          e?.response.data.msg,
+          true
+        );
       }
       throw new BinanceError(e.code, e.message, false);
     }
